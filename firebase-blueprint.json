@@ -1,0 +1,150 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the Instagram clone.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The unique identifier of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The user's chosen ID/username."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The user's profile picture URL."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the user account was created."
+        }
+      },
+      "required": ["uid", "username", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A post containing an image and a caption.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the post."
+        },
+        "authorUid": {
+          "type": "string",
+          "description": "The UID of the user who created the post."
+        },
+        "authorUsername": {
+          "type": "string",
+          "description": "The username of the author."
+        },
+        "authorPhotoURL": {
+          "type": "string",
+          "description": "The profile picture URL of the author."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "The URL of the image."
+        },
+        "caption": {
+          "type": "string",
+          "description": "The caption of the post."
+        },
+        "likesCount": {
+          "type": "number",
+          "description": "The number of likes the post has received."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the post was created."
+        }
+      },
+      "required": ["authorUid", "authorUsername", "imageUrl", "likesCount", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "A record of a user liking a post.",
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "string",
+          "description": "The ID of the liked post."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who liked the post."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the like was created."
+        }
+      },
+      "required": ["postId", "userId", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a post.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the comment."
+        },
+        "postId": {
+          "type": "string",
+          "description": "The ID of the post this comment belongs to."
+        },
+        "authorUid": {
+          "type": "string",
+          "description": "The UID of the user who wrote the comment."
+        },
+        "authorUsername": {
+          "type": "string",
+          "description": "The username of the author."
+        },
+        "text": {
+          "type": "string",
+          "description": "The content of the comment."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the comment was created."
+        }
+      },
+      "required": ["postId", "authorUid", "authorUsername", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user profiles."
+    },
+    "posts/{postId}": {
+      "schema": {
+        "$ref": "#/entities/Post"
+      },
+      "description": "Stores posts created by users."
+    },
+    "likes/{likeId}": {
+      "schema": {
+        "$ref": "#/entities/Like"
+      },
+      "description": "Stores likes on posts. Document ID is typically {userId}_{postId}."
+    },
+    "comments/{commentId}": {
+      "schema": {
+        "$ref": "#/entities/Comment"
+      },
+      "description": "Stores comments on posts."
+    }
+  }
+}
